@@ -5,10 +5,32 @@ let gameOver = false;
 
 window.onload = function() {
     setGame();
+    showButton();
+}
+
+function onStartButtonClick() {
+    score = 0;
+    gameOver = false;
+    document.getElementById("score").innerText = 0;
+    setInterval(setMole, randomIntFromInterval(600, 900)); 
+    setInterval(setPlant, randomIntFromInterval(600, 900));
+    hideButton(); 
+}
+
+function hideButton() {
+    const button = document.querySelector('button');
+    button.style.display = 'none';
+}
+
+function showButton() {
+    const button = document.querySelector('button');
+    button.style.display = 'block';
 }
 
 function setGame() {
-    //set up the grid in html
+    const button = document.querySelector('button');
+    button.addEventListener('click', onStartButtonClick);
+    
     for (let i = 0; i < 9; i++) { //i goes from 0 to 8, stops at 9
         //<div id="0-8"></div>
         let tile = document.createElement("div");
@@ -16,8 +38,7 @@ function setGame() {
         tile.addEventListener("click", selectTile);
         document.getElementById("board").appendChild(tile);
     }
-    setInterval(setMole, randomIntFromInterval(600, 900)); 
-    setInterval(setPlant, randomIntFromInterval(600, 900)); 
+
 }
 
 function randomIntFromInterval(min, max) { // min and max included 
@@ -77,5 +98,6 @@ function selectTile() {
     else if (this == currPlantTile) {
         document.getElementById("score").innerText = "GAME OVER: " + score.toString(); //update score html
         gameOver = true;
+        showButton();
     }
 }

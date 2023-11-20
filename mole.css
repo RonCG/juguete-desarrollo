@@ -39,3 +39,14 @@ body {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn {
+    background: #995454;
+    border-radius: 5px;
+}
