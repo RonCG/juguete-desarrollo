@@ -2,34 +2,74 @@ let currMoleTile;
 let currPlantTile;
 let score = 0;
 let gameOver = false;
-
+let moleInterval;
+let planInterval;
 window.onload = function() {
     setGame();
-    showButton();
+    showDifficultyButtons();
 }
 
-function onStartButtonClick() {
+function onStartEasyButtonClick() {
     score = 0;
     gameOver = false;
     document.getElementById("score").innerText = 0;
-    setInterval(setMole, randomIntFromInterval(600, 900)); 
-    setInterval(setPlant, randomIntFromInterval(600, 900));
-    hideButton(); 
+    resetInterval();
+    moleInterval = setInterval(setMole, randomIntFromInterval(900, 1200)); 
+    planInterval = setInterval(setPlant, randomIntFromInterval(900, 1200));
+    hideDifficultyButtons(); 
 }
 
-function hideButton() {
-    const button = document.querySelector('button');
-    button.style.display = 'none';
+function onStartMediumButtonClick() {
+    score = 0;
+    gameOver = false;
+    document.getElementById("score").innerText = 0;
+    resetInterval();
+    moleInterval = setInterval(setMole, randomIntFromInterval(600, 900)); 
+    planInterval = setInterval(setPlant, randomIntFromInterval(600, 900));
+    hideDifficultyButtons(); 
 }
 
-function showButton() {
-    const button = document.querySelector('button');
-    button.style.display = 'block';
+function onStartHardButtonClick() {
+    score = 0;
+    gameOver = false;
+    document.getElementById("score").innerText = 0;
+    resetInterval();
+    moleInterval = setInterval(setMole, randomIntFromInterval(400, 700)); 
+    planInterval = setInterval(setPlant, randomIntFromInterval(400, 700));
+    hideDifficultyButtons(); 
+}
+
+function resetInterval(){
+    if(moleInterval)
+        clearInterval(moleInterval);
+
+    if(planInterval)
+        clearInterval(planInterval);
+}
+
+function hideDifficultyButtons() {
+    var elements = document.querySelectorAll(".btn");   
+    for(var i = 0, len = elements.length; i < len; i++) {   
+        elements[i].style.display = 'none';
+    }
+}
+
+function showDifficultyButtons() {
+    var elements = document.querySelectorAll(".btn");   
+    for(var i = 0, len = elements.length; i < len; i++) {   
+        elements[i].style.display = 'block';
+    }
 }
 
 function setGame() {
-    const button = document.querySelector('button');
-    button.addEventListener('click', onStartButtonClick);
+    const easyButton = document.getElementById("facil");
+    easyButton.addEventListener('click', onStartEasyButtonClick);
+
+    const mediumButton = document.getElementById("intermedio");
+    mediumButton.addEventListener('click', onStartMediumButtonClick);
+
+    const hardButton = document.getElementById("dificil");
+    hardButton.addEventListener('click', onStartHardButtonClick);
     
     for (let i = 0; i < 9; i++) { //i goes from 0 to 8, stops at 9
         //<div id="0-8"></div>
@@ -98,6 +138,6 @@ function selectTile() {
     else if (this == currPlantTile) {
         document.getElementById("score").innerText = "GAME OVER: " + score.toString(); //update score html
         gameOver = true;
-        showButton();
+        showDifficultyButtons();
     }
 }
